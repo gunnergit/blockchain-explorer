@@ -15,3 +15,5 @@ first-network/channel-artifacts/*
 .vscode
 log.log
 examples/*
+logs/*
+app/test/logs/*
