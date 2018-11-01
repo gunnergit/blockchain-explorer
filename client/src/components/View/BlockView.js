@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FontAwesome from 'react-fontawesome';
@@ -26,7 +26,7 @@ class BlockView extends Component {
   };
 
   render() {
-    const { blockHash, classes } = this.props;
+    const { blockHash, classes, locale } = this.props;
     if (!blockHash) {
       return (
         <Modal>
@@ -34,7 +34,7 @@ class BlockView extends Component {
             <Card className={modalClasses.card}>
               <CardTitle className={modalClasses.title}>
                 <FontAwesome name="cube" />
-                Block Details
+                {format({ id: ['block', 'details'], locale })}
               </CardTitle>
               <CardBody className={modalClasses.body}>
                 <span>
@@ -54,7 +54,7 @@ class BlockView extends Component {
             <Card className={modalClasses.card}>
               <CardTitle className={modalClasses.title}>
                 <FontAwesome name="cube" className={classes.cubeIcon} />
-                Block Details
+                {format({ id: ['block', 'details'], locale })}
                 <button
                   type="button"
                   onClick={this.handleClose}

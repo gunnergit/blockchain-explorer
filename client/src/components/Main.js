@@ -62,6 +62,7 @@ const styles = theme => {
 
 export const Main = props => {
   const {
+    locale,
     classes,
     blockList,
     blockActivity,
@@ -82,6 +83,7 @@ export const Main = props => {
   } = props;
 
   const blocksViewProps = {
+    locale,
     blockList,
     blockListSearch,
     getBlockListSearch,
@@ -91,14 +93,17 @@ export const Main = props => {
     transaction
   };
   const chaincodeViewProps = {
+    locale,
     chaincodeList
   };
 
   const channelsViewProps = {
+    locale,
     channels
   };
 
   const dashboardViewProps = {
+    locale,
     blockList,
     dashStats,
     peerStatus,
@@ -107,10 +112,12 @@ export const Main = props => {
   };
 
   const networkViewProps = {
+    locale,
     peerList
   };
 
   const transactionsViewProps = {
+    locale,
     currentChannel,
     transaction,
     transactionList,
@@ -119,7 +126,6 @@ export const Main = props => {
     transactionListSearch,
     getTransactionListSearch
   };
-
   return (
     <Router>
       <div className={classes.main}>
@@ -178,22 +184,25 @@ Main.propTypes = {
 export default compose(
   withStyles(styles),
   connect(
-    state => ({
-      blockList: blockListSelector(state),
-      chaincodeList: chaincodeListSelector(state),
-      channelList: channelListSelector(state),
-      channels: channelsSelector(state),
-      currentChannel: currentChannelSelector(state),
-      dashStats: dashStatsSelector(state),
-      peerList: peerListSelector(state),
-      peerStatus: peerStatusSelector(state),
-      transaction: transactionSelector(state),
-      transactionByOrg: transactionByOrgSelector(state),
-      transactionList: transactionListSelector(state),
-      blockListSearch: blockListSearchSelector(state),
-      transactionListSearch: transactionListSearchSelector(state),
-      blockActivity: blockActivitySelector(state)
-    }),
+    state => {
+      return {
+        locale: state.theme.locale,
+        blockList: blockListSelector(state),
+        chaincodeList: chaincodeListSelector(state),
+        channelList: channelListSelector(state),
+        channels: channelsSelector(state),
+        currentChannel: currentChannelSelector(state),
+        dashStats: dashStatsSelector(state),
+        peerList: peerListSelector(state),
+        peerStatus: peerStatusSelector(state),
+        transaction: transactionSelector(state),
+        transactionByOrg: transactionByOrgSelector(state),
+        transactionList: transactionListSelector(state),
+        blockListSearch: blockListSearchSelector(state),
+        transactionListSearch: transactionListSearchSelector(state),
+        blockActivity: blockActivitySelector(state)
+      };
+    },
     {
       getTransaction: tableOperations.transaction,
       getBlockListSearch: tableOperations.blockListSearch,

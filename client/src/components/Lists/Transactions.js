@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -194,10 +194,10 @@ export class Transactions extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, locale } = this.props;
     const columnHeaders = [
       {
-        Header: 'Creator',
+        Header: format({ id: ['transaction', 'creator'], locale }),
         accessor: 'creator_msp_id',
         filterMethod: (filter, rows) =>
           matchSorter(
@@ -209,7 +209,7 @@ export class Transactions extends Component {
         filterAll: true
       },
       {
-        Header: 'Channel Name',
+        Header: format({ id: ['block', 'channelname'], locale }),
         accessor: 'channelname',
         filterMethod: (filter, rows) =>
           matchSorter(
@@ -221,7 +221,7 @@ export class Transactions extends Component {
         filterAll: true
       },
       {
-        Header: 'Tx Id',
+        Header: format({ id: ['block', 'txhash'], locale }),
         accessor: 'txhash',
         className: classes.hash,
         Cell: row => (
@@ -250,7 +250,7 @@ export class Transactions extends Component {
         filterAll: true
       },
       {
-        Header: 'Type',
+        Header: format({ id: ['transaction', 'type'], locale }),
         accessor: 'type',
         filterMethod: (filter, rows) =>
           matchSorter(
@@ -262,7 +262,7 @@ export class Transactions extends Component {
         filterAll: true
       },
       {
-        Header: 'Chaincode',
+        Header: format({ id: ['transaction', 'chaincode'], locale }),
         accessor: 'chaincodename',
         filterMethod: (filter, rows) =>
           matchSorter(
@@ -274,7 +274,7 @@ export class Transactions extends Component {
         filterAll: true
       },
       {
-        Header: 'Timestamp',
+        Header: format({ id: ['transaction', 'createAt'], locale }),
         accessor: 'createdt',
         filterMethod: (filter, rows) =>
           matchSorter(
@@ -296,7 +296,10 @@ export class Transactions extends Component {
       <div>
         <div className={`${classes.filter} row searchRow`}>
           <div className={`${classes.filterElement} col-md-3`}>
-            <label className="label">From</label>
+            <label className="label">
+              {' '}
+              {format({ id: ['block', 'from'], locale })}{' '}
+            </label>
             <DatePicker
               id="from"
               selected={this.state.from}
@@ -313,7 +316,9 @@ export class Transactions extends Component {
             />
           </div>
           <div className={`${classes.filterElement} col-md-3`}>
-            <label className="label">To</label>
+            <label className="label">
+              {format({ id: ['block', 'to'], locale })}
+            </label>
             <DatePicker
               id="to"
               selected={this.state.to}
@@ -360,7 +365,7 @@ export class Transactions extends Component {
                 await this.handleSearch();
               }}
             >
-              Search
+              {format({ id: ['block', 'search'], locale })}
             </Button>
           </div>
           <div className="col-md-1">
@@ -371,7 +376,7 @@ export class Transactions extends Component {
                 this.handleClearSearch();
               }}
             >
-              Reset
+              {format({ id: ['block', 'reset'], locale })}
             </Button>
           </div>
           <div className="col-md-1">
@@ -380,7 +385,7 @@ export class Transactions extends Component {
               color="secondary"
               onClick={() => this.setState({ filtered: [], sorted: [] })}
             >
-              Clear Filter
+              {format({ id: ['block', 'clear'], locale })}
             </Button>
           </div>
         </div>
@@ -410,6 +415,7 @@ export class Transactions extends Component {
           maxWidth="md"
         >
           <TransactionView
+            locale={locale}
             transaction={transaction}
             onClose={this.handleDialogClose}
           />

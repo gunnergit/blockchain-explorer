@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Badge } from 'reactstrap';
@@ -20,16 +20,16 @@ const styles = theme => {
   };
 };
 
-const PeersHealth = ({ peerStatus, classes }) => {
+const PeersHealth = ({ peerStatus, classes, locale }) => {
   const columnHeaders = [
     {
-      Header: 'Peer Name',
+      Header: format({ id: ['panel', 'peerName'], locale }),
       accessor: 'server_hostname',
       filterAll: false,
       className: classes.center
     },
     {
-      Header: 'Status',
+      Header: format({ id: ['panel', 'status'], locale }),
       accessor: 'status',
       filterAll: false,
       className: classes.center,

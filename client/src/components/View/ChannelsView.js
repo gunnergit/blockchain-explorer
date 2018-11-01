@@ -7,9 +7,9 @@ import View from '../Styled/View';
 import Channels from '../Lists/Channels';
 import { channelsType } from '../types';
 
-export const ChannelsView = ({ channels }) => (
+export const ChannelsView = ({ channels, locale }) => (
   <View>
-    <Channels channels={channels} />
+    <Channels channels={channels} locale={locale} />
   </View>
 );
 

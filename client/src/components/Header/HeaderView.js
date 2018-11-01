@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ import Badge from '@material-ui/core/Badge';
 import Dialog from '@material-ui/core/Dialog';
 import Loader from 'react-loader-spinner';
 import NotificationsPanel from '../Panels/NotificationsPanel';
-import Logo from '../../static/images/Explorer_Logo.svg';
+import Logo from '../../static/images/RDD_Logo.png';
 import AdminPanel from '../Panels/AdminPanel';
 import { chartOperations, chartSelectors } from '../../state/redux/charts';
 import { tableOperations, tableSelectors } from '../../state/redux/tables';
@@ -385,8 +385,14 @@ export class HeaderView extends Component {
     this.handleClose();
   }
 
+  toggleLocale = () => {
+    const { locale, onChangeLocale } = this.props;
+    const lan = locale === 'en' ? 'zh' : 'en';
+    onChangeLocale(lan);
+  };
+
   render() {
-    const { mode, classes } = this.props;
+    const { mode, classes, locale } = this.props;
     const { hostname, port } = window.location;
     const webSocketUrl = `ws://${hostname}:${port}/`;
     const dark = mode === 'dark';
@@ -402,12 +408,22 @@ export class HeaderView extends Component {
     } = this.state;
 
     const links = [
-      { to: '/', label: 'DASHBOARD', exact: true },
-      { to: '/network', label: 'NETWORK' },
-      { to: '/blocks', label: 'BLOCKS' },
-      { to: '/transactions', label: 'TRANSACTIONS' },
-      { to: '/chaincodes', label: 'CHAINCODES' },
-      { to: '/channels', label: 'CHANNELS' }
+      {
+        to: '/',
+        label: format({ id: ['panel', 'dashboard'], locale }),
+        exact: true
+      },
+      { to: '/network', label: format({ id: ['panel', 'network'], locale }) },
+      { to: '/blocks', label: format({ id: ['panel', 'blocks'], locale }) },
+      {
+        to: '/transactions',
+        label: format({ id: ['panel', 'transactions'], locale })
+      },
+      {
+        to: '/chaincodes',
+        label: format({ id: ['panel', 'chainCodes'], locale })
+      },
+      { to: '/channels', label: format({ id: ['panel', 'channels'], locale }) }
     ];
 
     return (
@@ -488,12 +504,9 @@ export class HeaderView extends Component {
                   <div
                     className={`${classes.adminButton} ${classes.themeSwitch}`}
                   >
-                    <FontAwesome name="sun-o" className={classes.sunIcon} />
-                    <Switch
-                      onChange={() => this.handleThemeChange(mode)}
-                      checked={dark}
-                    />
-                    <FontAwesome name="moon-o" className={classes.moonIcon} />
+                    <span className={classes.sunIcon}>中</span>
+                    <Switch onChange={this.toggleLocale} />
+                    <span className={classes.moonIcon}>EN</span>
                   </div>
                 </Nav>
               </Collapse>
@@ -563,26 +576,34 @@ const { modeSelector } = themeSelectors;
 export default compose(
   withStyles(styles),
   connect(
-    state => ({
-      currentChannel: currentChannelSelector(state),
-      channels: channelsSelector(state),
-      mode: modeSelector(state)
-    }),
-    {
-      getBlockList: blockList,
-      getBlocksPerHour: blockPerHour,
-      getBlocksPerMin: blockPerMin,
-      getChaincodeList: chaincodeList,
-      getChangeChannel: changeChannel, // not in syncdata
-      getChannels: channels,
-      getDashStats: dashStats,
-      getPeerList: peerList,
-      getPeerStatus: peerStatus,
-      getBlockActivity: blockActivity,
-      getTransactionByOrg: transactionByOrg,
-      getTransactionList: transactionList,
-      getTransactionPerHour: transactionPerHour,
-      getTransactionPerMin: transactionPerMin
+    state => {
+      return {
+        currentChannel: currentChannelSelector(state),
+        channels: channelsSelector(state),
+        mode: modeSelector(state),
+        locale: state.theme.locale
+      };
+    },
+    dispatch => {
+      return {
+        onChangeLocale: locale => {
+          dispatch({ type: 'CHANGE_LOCALE', locale });
+        },
+        getBlockList: blockList,
+        getBlocksPerHour: blockPerHour,
+        getBlocksPerMin: blockPerMin,
+        getChaincodeList: chaincodeList,
+        getChangeChannel: changeChannel, // not in syncdata
+        getChannels: channels,
+        getDashStats: dashStats,
+        getPeerList: peerList,
+        getPeerStatus: peerStatus,
+        getBlockActivity: blockActivity,
+        getTransactionByOrg: transactionByOrg,
+        getTransactionList: transactionList,
+        getTransactionPerHour: transactionPerHour,
+        getTransactionPerMin: transactionPerMin
+      };
     }
   )
 )(HeaderView);

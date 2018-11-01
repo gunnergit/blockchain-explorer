@@ -1,16 +1,16 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React from 'react';
 import ReactTable from '../Styled/Table';
 import matchSorter from 'match-sorter';
 import { peerListType } from '../types';
 
-const Peers = ({ peerList }) => {
+const Peers = ({ peerList, locale }) => {
   const columnHeaders = [
     {
-      Header: 'Peer Name',
+      Header: format({ id: ['panel', 'peerName'], locale }),
       accessor: 'server_hostname',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -22,7 +22,7 @@ const Peers = ({ peerList }) => {
       filterAll: true
     },
     {
-      Header: 'Request Url',
+      Header: format({ id: ['network', 'url'], locale }),
       accessor: 'requests',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -34,7 +34,7 @@ const Peers = ({ peerList }) => {
       filterAll: true
     },
     {
-      Header: 'Peer Type',
+      Header: format({ id: ['network', 'peerType'], locale }),
       accessor: 'peer_type',
       filterMethod: (filter, rows) =>
         matchSorter(

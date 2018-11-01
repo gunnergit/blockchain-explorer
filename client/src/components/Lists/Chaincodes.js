@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import matchSorter from 'match-sorter';
@@ -50,9 +50,9 @@ export class Chaincodes extends Component {
     this.setState({ sourceDialog: false });
   };
 
-  reactTableSetup = classes => [
+  reactTableSetup = (classes, locale) => [
     {
-      Header: 'Chaincode Name',
+      Header: format({ id: ['chain', 'codename'], locale }),
       accessor: 'chaincodename',
       Cell: row => (
         <a
@@ -73,7 +73,7 @@ export class Chaincodes extends Component {
       filterAll: true
     },
     {
-      Header: 'Channel Name',
+      Header: format({ id: ['chain', 'channel'], locale }),
       accessor: 'channelName',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -85,7 +85,7 @@ export class Chaincodes extends Component {
       filterAll: true
     },
     {
-      Header: 'Path',
+      Header: format({ id: ['chain', 'path'], locale }),
       accessor: 'path',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -97,7 +97,7 @@ export class Chaincodes extends Component {
       filterAll: true
     },
     {
-      Header: 'Transaction Count',
+      Header: format({ id: ['chain', 'txCount'], locale }),
       accessor: 'txCount',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -109,7 +109,7 @@ export class Chaincodes extends Component {
       filterAll: true
     },
     {
-      Header: 'Version',
+      Header: format({ id: ['chain', 'version'], locale }),
       accessor: 'version',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -123,7 +123,7 @@ export class Chaincodes extends Component {
   ];
 
   render() {
-    const { chaincodeList, classes } = this.props;
+    const { chaincodeList, classes, locale } = this.props;
     const { dialogOpen, sourceDialog, chaincode } = this.state;
     return (
       <div>
@@ -132,7 +132,7 @@ export class Chaincodes extends Component {
           </Button> */}
         <ReactTable
           data={chaincodeList}
-          columns={this.reactTableSetup(classes)}
+          columns={this.reactTableSetup(classes, locale)}
           defaultPageSize={5}
           filterable
           minRows={0}

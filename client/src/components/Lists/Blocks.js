@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -229,9 +229,9 @@ export class Blocks extends Component {
     this.setState({ selection: data });
   };
 
-  reactTableSetup = classes => [
+  reactTableSetup = (classes, locale) => [
     {
-      Header: 'Block Number',
+      Header: format({ id: ['block', 'blocknum'], locale }),
       accessor: 'blocknum',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -244,7 +244,7 @@ export class Blocks extends Component {
       width: 150
     },
     {
-      Header: 'Channel Name',
+      Header: format({ id: ['block', 'channelname'], locale }),
       accessor: 'channelname',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -256,7 +256,7 @@ export class Blocks extends Component {
       filterAll: true
     },
     {
-      Header: 'Number of Tx',
+      Header: format({ id: ['block', 'txcount'], locale }),
       accessor: 'txcount',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -269,7 +269,7 @@ export class Blocks extends Component {
       width: 150
     },
     {
-      Header: 'Data Hash',
+      Header: format({ id: ['block', 'datahash'], locale }),
       accessor: 'datahash',
       className: classes.hash,
       Cell: row => (
@@ -292,7 +292,7 @@ export class Blocks extends Component {
       filterAll: true
     },
     {
-      Header: 'Block Hash',
+      Header: format({ id: ['block', 'blockhash'], locale }),
       accessor: 'blockhash',
       className: classes.hash,
       Cell: row => (
@@ -320,7 +320,7 @@ export class Blocks extends Component {
       filterAll: true
     },
     {
-      Header: 'Previous Hash',
+      Header: format({ id: ['block', 'prehash'], locale }),
       accessor: 'prehash',
       className: classes.hash,
       Cell: row => (
@@ -348,7 +348,7 @@ export class Blocks extends Component {
       width: 150
     },
     {
-      Header: 'Transactions',
+      Header: format({ id: ['block', 'txhash'], locale }),
       accessor: 'txhash',
       className: classes.hash,
       Cell: row => (
@@ -396,13 +396,15 @@ export class Blocks extends Component {
     const blockList = this.state.search
       ? this.props.blockListSearch
       : this.props.blockList;
-    const { transaction, classes } = this.props;
+    const { transaction, classes, locale } = this.props;
     const { blockHash, dialogOpen, dialogOpenBlockHash } = this.state;
     return (
       <div>
         <div className={`${classes.filter} row searchRow`}>
           <div className={`${classes.filterElement} col-md-3`}>
-            <label className="label">From</label>
+            <label className="label">
+              {format({ id: ['block', 'from'], locale })}
+            </label>
             <DatePicker
               id="from"
               selected={this.state.from}
@@ -419,7 +421,9 @@ export class Blocks extends Component {
             />
           </div>
           <div className={`${classes.filterElement} col-md-3`}>
-            <label className="label">To</label>
+            <label className="label">
+              {format({ id: ['block', 'to'], locale })}
+            </label>
             <DatePicker
               id="to"
               selected={this.state.to}
@@ -466,7 +470,7 @@ export class Blocks extends Component {
                 await this.handleSearch();
               }}
             >
-              Search
+              {format({ id: ['block', 'search'], locale })}
             </Button>
           </div>
           <div className="col-md-1">
@@ -477,7 +481,7 @@ export class Blocks extends Component {
                 this.handleClearSearch();
               }}
             >
-              Reset
+              {format({ id: ['block', 'reset'], locale })}
             </Button>
           </div>
           <div className="col-md-1">
@@ -486,13 +490,13 @@ export class Blocks extends Component {
               color="secondary"
               onClick={() => this.setState({ filtered: [], sorted: [] })}
             >
-              Clear Filter
+              {format({ id: ['block', 'clear'], locale })}
             </Button>
           </div>
         </div>
         <ReactTable
           data={blockList}
-          columns={this.reactTableSetup(classes)}
+          columns={this.reactTableSetup(classes, locale)}
           defaultPageSize={10}
           list
           filterable
@@ -517,6 +521,7 @@ export class Blocks extends Component {
         >
           <TransactionView
             transaction={transaction}
+            locale={locale}
             onClose={this.handleDialogClose}
           />
         </Dialog>
@@ -529,6 +534,7 @@ export class Blocks extends Component {
         >
           <BlockView
             blockHash={blockHash}
+            locale={locale}
             onClose={this.handleDialogCloseBlockHash}
           />
         </Dialog>

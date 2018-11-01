@@ -1,14 +1,14 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import matchSorter from 'match-sorter';
 import ReactTable from '../Styled/Table';
 import { channelsType } from '../types';
 
 class Channels extends Component {
-  reactTableSetup = () => [
+  reactTableSetup = locale => [
     {
       Header: 'ID',
       accessor: 'id',
@@ -23,7 +23,7 @@ class Channels extends Component {
       width: 100
     },
     {
-      Header: 'Channel Name',
+      Header: format({ id: ['channel', 'name'], locale }),
       accessor: 'channelname',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -35,7 +35,7 @@ class Channels extends Component {
       filterAll: true
     },
     {
-      Header: 'Blocks',
+      Header: format({ id: ['channel', 'blocks'], locale }),
       accessor: 'blocks',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -48,7 +48,7 @@ class Channels extends Component {
       width: 125
     },
     {
-      Header: 'Transactions',
+      Header: format({ id: ['channel', 'transactions'], locale }),
       accessor: 'transactions',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -61,7 +61,7 @@ class Channels extends Component {
       width: 125
     },
     {
-      Header: 'Timestamp',
+      Header: format({ id: ['channel', 'time'], locale }),
       accessor: 'createdat',
       filterMethod: (filter, rows) =>
         matchSorter(
@@ -75,12 +75,12 @@ class Channels extends Component {
   ];
 
   render() {
-    const { channels } = this.props;
+    const { channels, locale } = this.props;
     return (
       <div>
         <ReactTable
           data={channels}
-          columns={this.reactTableSetup()}
+          columns={this.reactTableSetup(locale)}
           defaultPageSize={5}
           filterable
           minRows={0}

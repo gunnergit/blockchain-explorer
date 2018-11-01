@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core/styles';
@@ -107,6 +107,7 @@ export class ChartStats extends Component {
   render() {
     const { activeTab } = this.state;
     const {
+      locale,
       blockPerHour,
       blockPerMin,
       transactionPerHour,
@@ -126,7 +127,9 @@ export class ChartStats extends Component {
                 this.toggle('1');
               }}
             >
-              BLOCKS / HOUR
+              {format({ id: ['panel', 'blocks'], locale }) +
+                '/' +
+                format({ id: ['unit', 'hour'], locale })}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -138,7 +141,9 @@ export class ChartStats extends Component {
                 this.toggle('2');
               }}
             >
-              BLOCKS / MIN
+              {format({ id: ['panel', 'blocks'], locale }) +
+                '/' +
+                format({ id: ['unit', 'minute'], locale })}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -150,7 +155,9 @@ export class ChartStats extends Component {
                 this.toggle('3');
               }}
             >
-              TX / HOUR
+              {format({ id: ['panel', 'transactions'], locale }) +
+                '/' +
+                format({ id: ['unit', 'hour'], locale })}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -162,7 +169,9 @@ export class ChartStats extends Component {
                 this.toggle('4');
               }}
             >
-              TX / MIN
+              {format({ id: ['panel', 'transactions'], locale }) +
+                '/' +
+                format({ id: ['unit', 'minute'], locale })}
             </NavLink>
           </NavItem>
         </Nav>
@@ -201,6 +210,7 @@ export default compose(
   withStyles(styles),
   connect(
     state => ({
+      locale: state.theme.locale,
       blockPerHour: blockPerHourSelector(state),
       blockPerMin: blockPerMinSelector(state),
       transactionPerHour: transactionPerHourSelector(state),

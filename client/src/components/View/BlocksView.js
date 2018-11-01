@@ -13,6 +13,7 @@ import {
 } from '../types';
 
 export const BlocksView = ({
+  locale,
   blockList,
   currentChannel,
   getTransaction,
@@ -23,6 +24,7 @@ export const BlocksView = ({
 }) => (
   <View>
     <Blocks
+      locale={locale}
       blockList={blockList}
       currentChannel={currentChannel}
       transaction={transaction}

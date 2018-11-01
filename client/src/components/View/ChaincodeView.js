@@ -7,9 +7,9 @@ import View from '../Styled/View';
 import Chaincodes from '../Lists/Chaincodes';
 import { chaincodeListType } from '../types';
 
-export const ChaincodeView = ({ chaincodeList }) => (
+export const ChaincodeView = ({ chaincodeList, locale }) => (
   <View>
-    <Chaincodes chaincodeList={chaincodeList} />
+    <Chaincodes chaincodeList={chaincodeList} locale={locale} />
   </View>
 );
 

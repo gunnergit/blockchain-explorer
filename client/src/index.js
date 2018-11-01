@@ -12,7 +12,7 @@ import App from './components/App';
 import { unregister } from './registerServiceWorker';
 
 const mode = localStorage.getItem('theme-mode') || 'light';
-const store = createStore({ theme: { mode } });
+const store = createStore({ theme: { mode, locale: 'zh' } });
 
 store.subscribe(themeSideEffect(store));
 

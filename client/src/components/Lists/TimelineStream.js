@@ -71,7 +71,7 @@ export class TimelineStream extends Component {
   };
 
   render() {
-    const { notifications, classes } = this.props;
+    const { notifications, classes, locale } = this.props;
     const { blockHash, dialogOpenBlockHash } = this.state;
     return (
       <div>
@@ -140,6 +140,7 @@ export class TimelineStream extends Component {
         >
           <BlockView
             blockHash={blockHash}
+            locale={locale}
             onClose={this.handleDialogCloseBlockHash}
           />
         </Dialog>

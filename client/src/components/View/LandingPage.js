@@ -1,13 +1,13 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import Logo from '../../static/images/Explorer_Logo.svg';
+import Logo from '../../static/images/RDD_Logo.png';
 import { chartOperations, chartSelectors } from '../../state/redux/charts';
 import { tableOperations } from '../../state/redux/tables';
 import {
@@ -145,6 +145,7 @@ export class LandingPage extends Component {
 
   render() {
     const { hasDbError, logoStyle, settings } = this.state;
+    const { locale } = this.props;
     if (hasDbError) {
       return (
         <div
@@ -155,10 +156,7 @@ export class LandingPage extends Component {
             alignItems: 'center'
           }}
         >
-          <h1>
-            Please verify your network configuration, database configuration and
-            try again
-          </h1>
+          <h1>{format({ id: 'again', locale })}</h1>
         </div>
       );
     }
@@ -169,13 +167,13 @@ export class LandingPage extends Component {
           <img src={Logo} style={logoStyle} alt="Hyperledger Logo" />
           <Slider {...settings}>
             <div>
-              <h3>ACCESSING THE NETWORK</h3>
+              <h3>{format({ id: ['panel', 'acNet'], locale })}</h3>
             </div>
             <div>
-              <h3>CONNECTING TO CHANNEL</h3>
+              <h3>{format({ id: ['panel', 'connect'], locale })}</h3>
             </div>
             <div>
-              <h3>LOADING BLOCKS</h3>
+              <h3>{format({ id: ['panel', 'loading'], locale })}</h3>
             </div>
           </Slider>
         </div>
@@ -210,6 +208,7 @@ export default compose(
   withStyles(styles),
   connect(
     state => ({
+      locale: state.theme.locale,
       currentChannel: currentChannelSelector(state)
     }),
     {

@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Row, Col } from 'reactstrap';
@@ -124,21 +124,22 @@ export class DashboardView extends Component {
   }
 
   componentDidMount() {
-    const { blockActivity } = this.props;
-    this.setNotifications(blockActivity);
+    const { blockActivity, locale } = this.props;
+    this.setNotifications(blockActivity, locale);
   }
 
   componentWillReceiveProps() {
-    const { blockActivity } = this.props;
-    this.setNotifications(blockActivity);
+    const { blockActivity, locale } = this.props;
+    this.setNotifications(blockActivity, locale);
   }
 
-  setNotifications = blockList => {
+  setNotifications = (blockList, locale) => {
     const notificationsArr = [];
     if (blockList !== undefined) {
       for (let i = 0; i < 3 && blockList && blockList[i]; i += 1) {
         const block = blockList[i];
         const notify = {
+          locale,
           title: `Block ${block.blocknum} `,
           type: 'block',
           time: block.createdt,
@@ -155,6 +156,7 @@ export class DashboardView extends Component {
 
   render() {
     const {
+      locale,
       dashStats,
       peerStatus,
       blockActivity,
@@ -171,10 +173,7 @@ export class DashboardView extends Component {
             alignItems: 'center'
           }}
         >
-          <h1>
-            Please verify your network configuration, database configuration and
-            try again
-          </h1>
+          <h1>{format({ id: ['again'], locale })}</h1>
         </div>
       );
     }
@@ -196,7 +195,7 @@ export class DashboardView extends Component {
                       <h1 className={classes.count}>{dashStats.latestBlock}</h1>
                     </Col>
                   </Row>
-                  BLOCKS
+                  {format({ id: ['panel', 'blocks'], locale })}
                 </div>
                 <div className={`${classes.statistic} ${classes.vdivide}`}>
                   <Row>
@@ -211,7 +210,7 @@ export class DashboardView extends Component {
                       <h1 className={classes.count}>{dashStats.txCount}</h1>
                     </Col>
                   </Row>
-                  TRANSACTIONS
+                  {format({ id: ['panel', 'transactions'], locale })}
                 </div>
                 <div className={`${classes.statistic} ${classes.vdivide}`}>
                   <Row>
@@ -224,7 +223,7 @@ export class DashboardView extends Component {
                       <h1 className={classes.count}>{dashStats.peerCount}</h1>
                     </Col>
                   </Row>
-                  NODES
+                  {format({ id: ['panel', 'nodes'], locale })}
                 </div>
                 <div className={classes.statistic}>
                   <Row>
@@ -241,7 +240,7 @@ export class DashboardView extends Component {
                       </h1>
                     </Col>
                   </Row>
-                  CHAINCODES
+                  {format({ id: ['panel', 'chainCodes'], locale })}
                 </div>
               </Card>
             </Col>
@@ -249,12 +248,13 @@ export class DashboardView extends Component {
           <Row>
             <Col sm="6">
               <Card className={classes.section}>
-                <PeersHealth peerStatus={peerStatus} />
+                <PeersHealth peerStatus={peerStatus} locale={locale} />
               </Card>
               <Card className={classes.section}>
                 <TimelineStream
                   notifications={notifications}
                   blockList={blockActivity}
+                  locale={locale}
                 />
               </Card>
             </Col>
@@ -263,7 +263,7 @@ export class DashboardView extends Component {
                 <ChartStats />
               </Card>
               <Card className={`${classes.section} ${classes.center}`}>
-                <h5>Transactions by Organization</h5>
+                <h5>{format({ id: ['chart', 'tbo'], locale })} </h5>
                 <hr />
                 <OrgPieChart transactionByOrg={transactionByOrg} />
               </Card>

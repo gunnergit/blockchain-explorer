@@ -15,6 +15,7 @@ import {
 } from '../types';
 
 export const TransactionsView = ({
+  locale,
   currentChannel,
   getTransaction,
   getTransactionInfo,
@@ -27,6 +28,7 @@ export const TransactionsView = ({
 }) => (
   <View>
     <Transactions
+      locale={locale}
       currentChannel={currentChannel}
       transactionList={transactionList}
       getTransactionList={getTransactionList}

@@ -1,7 +1,7 @@
 /**
  *    SPDX-License-Identifier: Apache-2.0
  */
-
+import format from '../../intlFormat';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FontAwesome from 'react-fontawesome';
@@ -77,7 +77,7 @@ export class TransactionView extends Component {
   };
 
   render() {
-    const { transaction, classes } = this.props;
+    const { transaction, classes, locale } = this.props;
     if (transaction && !transaction.read_set) {
       return (
         <Modal>
@@ -85,7 +85,7 @@ export class TransactionView extends Component {
             <div>
               <CardTitle className={modalClasses.title}>
                 <FontAwesome name="list-alt" className={classes.listIcon} />
-                Transaction Details
+                {format({ id: ['transaction', 'details'], locale })}
                 <button
                   type="button"
                   onClick={this.handleClose}
@@ -115,7 +115,7 @@ export class TransactionView extends Component {
               <Card className={modalClasses.card}>
                 <CardTitle className={modalClasses.title}>
                   <FontAwesome name="list-alt" className={classes.listIcon} />
-                  Transaction Details
+                  {format({ id: ['transaction', 'details'], locale })}
                   <button
                     type="button"
                     onClick={this.handleClose}
